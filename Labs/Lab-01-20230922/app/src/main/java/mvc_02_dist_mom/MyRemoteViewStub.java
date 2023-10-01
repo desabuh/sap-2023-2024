@@ -5,6 +5,9 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import mvc_01_basic.*;
 
+//si mette in osservazione del modello e poi pubblica la modifica del model su un topic di rabbitmq
+
+//- la comunicazione è asincrona (ogni modifica del model è un evento)
 class MyRemoteViewStub implements ModelObserver {
 
 	private final static String EXCHANGE_NAME = "mvc";
@@ -30,8 +33,10 @@ class MyRemoteViewStub implements ModelObserver {
 	}
 
 	public void notifyModelUpdated() {
+		System.out.println(channel);
 		try {		    
-		    String message = "" + model.getState();	  
+		    String message = "" + model.getState();
+			//qualora il modello cambi si esegue una pubblicsh
 	        channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes("UTF-8"));
 		} catch (Exception ex) {
 			ex.printStackTrace();

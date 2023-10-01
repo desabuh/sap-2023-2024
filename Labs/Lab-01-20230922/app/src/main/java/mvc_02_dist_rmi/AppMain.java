@@ -13,6 +13,7 @@ public class AppMain {
 	view.display();
 	inputUI.display();
 
+	//per rendere una RMI è necessario che il proxy osservi il model
 	new MyRemoteViewProxy(model);
 	
   }	

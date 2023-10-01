@@ -21,11 +21,13 @@ public class MyRemoteViewMain {
 	    channel.queueBind(queueName, EXCHANGE_NAME, "");
 
 
+		//ogni volta che ricevo un aggiornamento invoco una modifica sulla view
 		DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 			String message = new String(delivery.getBody(), "UTF-8");
 			view.notifyModelUpdated(Integer.parseInt(message));
 		};
-	    
+
+		//consumo eventi sull'mvc exhange
 		channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });	    
 		System.out.println("Remote Viewer installed. ");
 	}
